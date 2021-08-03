@@ -13,9 +13,9 @@ import {
 import "antd/dist/antd.css";
 import CharacterCard from './Content/CharacterInfo.js'
 
-const { Header, Content, Footer } = Layout;
-
 import { Wrapper, Grid } from "react-auto-grid";
+
+const { Header, Content, Footer } = Layout;
 
 const client = new ApolloClient({
   uri: "https://rickandmortyapi.com/graphql",
@@ -144,21 +144,28 @@ class App extends Component {
           </Header>
 
           {this.state.data && (
-            <div style={{ marginTop: 20 }}>
+            <div style={{ marginTop: 20}}>
               <Pagination showQuickJumper current={this.state.currentPage} total={this.state.data.characters.info.pages} onChange={(e) => this.changePage(e)} />
+              <div style={{marginTop:20, marginBottom:10}}>
               <Row>
                 {this.state.data && this.state.data.characters.results.map(entry => (
-                  <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}>
-                    <CharacterCard name={entry.name} image={entry.image} />
+                  <Col   xs={{ span: 2, offset: 1 }} lg={{ span: 1, offset: 1, }}>
+                    <CharacterCard name={entry.name} image={entry.image} gender={entry.gender} type={entry.type} />
                   </Col>
                 ))}
               </Row>
               {console.log(this.state.data)}
+              </div>
+              {console.log(this.state.data.characters.info.pages)}
               <Pagination showQuickJumper current={this.state.currentPage} total={this.state.data.characters.info.pages} onChange={(e) => this.changePage(e)} />
             </div>
           )}
 
         </Layout>
+        <Footer style={{bottom:1}}>
+          Rick n' Morty Info
+          Based on rickandmortyapi.com's GraphQL API
+        </Footer>
       </div>
     );
   }
