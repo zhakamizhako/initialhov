@@ -1,60 +1,46 @@
-import { Card, Spin, Table, Tag, } from 'antd';
-import Meta from 'antd/lib/card/Meta';
-import { LoadingOutlined } from '@ant-design/icons';
-import React, { useState, useRef } from 'react';
-
+/* eslint-disable react/display-name */
+import { Table, Button } from 'antd'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const LocationTable = props => {
-    const listing = 'categories';
+  const handleClick = async (data) => {
+    props.clickHandler(data)
+  }
 
-    const handleClick = async (data) => {
-        props.clickHandler(data)
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (entry, data) => {
+        return (<Button type='link' onClick={() => handleClick(data.id)}>{entry}</Button>)
+      }
+    },
+    {
+      title: 'Type',
+      dataIndex: 'type',
+      key: 'type'
+    },
+    {
+      title: 'Dimension',
+      dataIndex: 'dimension',
+      key: 'dimension'
     }
 
-    const columns = [
-        {
-            title: "Name",
-            dataIndex: "name",
-            key: "name",
-        },
-        {
-            title: "Type",
-            dataIndex: "type",
-            key: "type",
-        },
-        {
-            title: "Dimension",
-            dataIndex: "dimension",
-            key: "dimension",
-        },
-        {
-            render: data => (
-                <div color={"blue"}><Tag onClick={() => handleClick(data)}>View Residents</Tag></div>
-            )
-        },
+  ]
 
-    ]
-
-    const { data } = props;
-
-    console.log('tble props')
-    console.log(props)
-    return (
+  const { data } = props
+  return (
         <div>
             <Table columns={columns} pagination={false} dataSource={data} />
         </div>
-    );
-};
-
-const styles = {
-    cardStyle: {
-        width: 240,
-        marginBottom: 20
-    },
-};
+  )
+}
 
 LocationTable.propTypes = {
+  data: PropTypes.object,
+  clickHandler: PropTypes.func
+}
 
-};
-
-export default LocationTable;
+export default LocationTable

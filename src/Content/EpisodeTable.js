@@ -1,60 +1,48 @@
-import { Card, Spin, Table, Tag, } from 'antd';
-import Meta from 'antd/lib/card/Meta';
-import { LoadingOutlined } from '@ant-design/icons';
-import React, { useState, useRef } from 'react';
-
+/* eslint-disable react/display-name */
+import { Button, Table, Tag } from 'antd'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const EpisodeTable = props => {
-    const listing = 'categories';
+  const handleClick = async (data) => {
+    props.clickHandler(data)
+  }
 
-    const handleClick = async (data) => {
-        props.clickHandler(data)
+  const columns = [
+    {
+      title: 'Code',
+      dataIndex: 'episode',
+      key: 'episode'
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (entry, data) => {
+        return (<Button type='link' onClick={() => handleClick(data.id)}>{entry}</Button>)
+      }
+    },
+    {
+      title: 'Air Date',
+      dataIndex: 'air_date',
+      key: 'air_date'
     }
 
-    const columns = [
-        {
-            title: "Code",
-            dataIndex: "episode",
-            key: "episode",
-        },
-        {
-            title: "Name",
-            dataIndex: "name",
-            key: "name",
-        },
-        {
-            title: "Air Date",
-            dataIndex: "air_date",
-            key: "air_date",
-        },
-        {
-            render: data => (
-                <div color={"blue"}><Tag onClick={() => handleClick(data)}>View Characters</Tag></div>
-            )
-        },
+  ]
 
-    ]
-
-    const { data } = props;
-
-    console.log('tble props')
-    console.log(props)
-    return (
+  const { data, usePagination } = props
+  return (
         <div>
-            <Table columns={columns} pagination={false} dataSource={data} />
+            <Table columns={columns} pagination={usePagination} dataSource={data} />
         </div>
-    );
-};
-
-const styles = {
-    cardStyle: {
-        width: 240,
-        marginBottom: 20
-    },
-};
+  )
+}
 
 EpisodeTable.propTypes = {
+  clickHandler: PropTypes.function,
+  data: PropTypes.object,
+  usePagination: PropTypes.bool
 
-};
+}
 
-export default EpisodeTable;
+export default EpisodeTable
